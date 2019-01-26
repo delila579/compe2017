@@ -14,12 +14,14 @@ public class auto_moderator {
         String CSVpath = args[0];
 
         BufferedReader bufferedReader = null;
-        String line = "";
+        String line;
         String splitLineBy = ",";
         String splitMessageBy = " ";
 
         String messageId = "";
-        String message = "";
+        String message;
+
+        int somme= 0;
 
         try {
             bufferedReader = new BufferedReader(new FileReader(CSVpath));
@@ -33,9 +35,12 @@ public class auto_moderator {
 
                 String[] words = message.split(splitMessageBy);
 
+                somme += evaluateMessage(words);
 
                 line = bufferedReader.readLine();
             }
+
+            showResult(messageId, somme);
 
         } catch (FileNotFoundException e) {
             System.out.println("CSV file does not exist.");
@@ -55,17 +60,27 @@ public class auto_moderator {
 
     }
 
-    public MessageClassification evaluateMessage(String[] words){
+    public static int evaluateMessage(String[] words){
 
+        for(int i = 0; i < words.length; i++ ) {
+        }
+
+        return 0;
     }
 
     //write in standard output
-    public void showResult(String messageId, MessageClassification classification){
-        switch (classification){
-            case MessageClassification.POSITIVE:
-                System.out.println("This message is positive.");
+    public static void showResult(String messageId, int somme){
+        switch (somme){
+            case 1:
+                System.out.println(messageId + ",positive");
+                break;
+            case -1:
+                System.out.println(messageId + ",negative");
+                break;
+            case 0:
+                System.out.println(messageId + ",neutral");
                 break;
 
         }
-    }
+     }
 }
