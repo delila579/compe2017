@@ -1,8 +1,13 @@
+
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
+
+import static java.lang.Math.abs;
 
 public class auto_moderator {
 
@@ -108,7 +113,64 @@ public class auto_moderator {
             types[i] = dictionary.get(words[i]);
         }
 
-
+            //condition 1
+        if (Arrays.stream(words).anyMatch("Ideji"::equals)
+                && Arrays.stream(types).anyMatch("b"::equals)){
+            return -1;
+            //condition 2
+        } else if (Arrays.stream(words).anyMatch("Ideji"::equals)
+                && Arrays.stream(types).anyMatch("g"::equals)){
+            return 1;
+            //condition 3
+        } else if ( Arrays.stream(words).anyMatch("Your"::equals)
+                && Arrays.stream(types).anyMatch("s"::equals)
+                && Arrays.stream(types).anyMatch("b"::equals)
+                && (Arrays.asList(words).indexOf("Your") == Arrays.asList(types).indexOf("s")-1) ){
+            return - 1;
+        } else if ( Arrays.stream(words).anyMatch("your"::equals)
+                && Arrays.stream(types).anyMatch("s"::equals)
+                && Arrays.stream(types).anyMatch("b"::equals)
+                && (Arrays.asList(words).indexOf("your") == Arrays.asList(types).indexOf("s")-1) ){
+            return - 1;
+            //condition 4  // I think there is a typo in the README : they put "s" instead of "g"
+        } else if ( Arrays.stream(words).anyMatch("Your"::equals)
+                && Arrays.stream(types).anyMatch("s"::equals)
+                && Arrays.stream(types).anyMatch("g"::equals)
+                && (Arrays.asList(words).indexOf("Your") == Arrays.asList(types).indexOf("s")-1) ){
+            return - 1;
+        } else if ( Arrays.stream(words).anyMatch("your"::equals)
+                && Arrays.stream(types).anyMatch("s"::equals)
+                && Arrays.stream(types).anyMatch("g"::equals)
+                && (Arrays.asList(words).indexOf("your") == Arrays.asList(types).indexOf("s")-1) ){
+            return - 1;
+            //condition 5
+        } else if ( !Arrays.stream(words).anyMatch("your"::equals) ){
+            return 0;
+            //condition 6
+        } else if ( Arrays.stream(types).anyMatch("c"::equals)
+                && Arrays.stream(types).anyMatch("b"::equals) ){
+            return 1;
+            //condition 8 
+        } else if ( Arrays.stream(types).anyMatch("c"::equals)
+                && Arrays.stream(types).anyMatch("g"::equals)
+                && Arrays.stream(types).anyMatch("s"::equals)
+                && Arrays.stream(types).anyMatch("b"::equals)
+                && ( (abs(Arrays.asList(types).indexOf("s") - Arrays.asList(types).indexOf("g")))
+                    < (abs(Arrays.asList(types).indexOf("s") - Arrays.asList(types).indexOf("b")))) ){
+            return 0;
+            //condition 9
+        } else if ( Arrays.stream(types).anyMatch("c"::equals)
+                && Arrays.stream(types).anyMatch("g"::equals)
+                && Arrays.stream(types).anyMatch("s"::equals)
+                && Arrays.stream(types).anyMatch("b"::equals)
+                && ( (abs(Arrays.asList(types).indexOf("s") - Arrays.asList(types).indexOf("g")))
+                > (abs(Arrays.asList(types).indexOf("s") - Arrays.asList(types).indexOf("b")))) ){
+            return 0;
+            //condition 7
+        } else if ( Arrays.stream(types).anyMatch("c"::equals)
+                && Arrays.stream(types).anyMatch("g"::equals) ){
+            return -1;
+        }
 
         return 0;
     }
